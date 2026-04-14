@@ -2,9 +2,9 @@ name: Python CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ] #推送到dev与main进行测试
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ] #dev与main都跑测试
 
 jobs:
   test:
