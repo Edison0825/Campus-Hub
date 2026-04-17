@@ -1,0 +1,120 @@
+@startuml 校园互助平台用例图
+' 设置图表方向为从左到右
+left to right direction
+' 设置主题
+skinparam packageStyle rectangle
+skinparam actor {
+  BackgroundColor #E8F4FD
+  BorderColor #1E88E5
+  FontColor #0D47A1
+}
+skinparam usecase {
+  BackgroundColor #FFF3E0
+  BorderColor #FB8C00
+  FontColor #E65100
+}
+skinparam package {
+  BackgroundColor #F5F5F5
+  BorderColor #9E9E9E
+  FontColor #37474F
+}
+
+' ===== 定义角色 =====
+actor "发布者" as Publisher
+actor "接单者" as Taker  
+actor "管理员" as Admin
+
+' ===== 系统边界 =====
+rectangle "校园互助服务平台" as System {
+
+  ' ----- 发布者用例 -----
+  package "发布者功能" #FCE4EC {
+    usecase "发布互助任务" as UC01
+    usecase "取消任务" as UC02
+    usecase "确认任务完成" as UC03
+    usecase "评价接单者" as UC04
+    usecase "查看接单者信用" as UC05
+    usecase "举报违规行为" as UC06
+    usecase "发布二手物品" as UC07
+    usecase "发布组队需求" as UC08
+  }
+
+  ' ----- 接单者用例 -----
+  package "接单者功能" #E8EAF6 {
+    usecase "浏览任务列表" as UC09
+    usecase "接单" as UC10
+    usecase "取消接单" as UC11
+    usecase "查看发布者信用" as UC12
+    usecase "收到评价" as UC13
+    usecase "设置擅长科目" as UC14
+    usecase "发布辅导需求" as UC15
+  }
+
+  ' ----- 公共用例 -----
+  package "公共功能" #E0F2F1 {
+    usecase "用户注册/登录" as UC16
+    usecase "查看信用分明细" as UC17
+    usecase "虚拟号码聊天" as UC18
+    usecase "查看任务详情" as UC19
+    usecase "筛选搜索任务" as UC20
+  }
+
+  ' ----- 管理员用例 -----
+  package "管理功能" #F3E5F5 {
+    usecase "处理举报投诉" as UC21
+    usecase "审核违规任务" as UC22
+    usecase "封禁违规用户" as UC23
+    usecase "查看系统统计" as UC24
+  }
+
+  ' ===== 用例关系 =====
+  
+  ' 发布者关联
+  Publisher --> UC01
+  Publisher --> UC02
+  Publisher --> UC03
+  Publisher --> UC04
+  Publisher --> UC05
+  Publisher --> UC06
+  Publisher --> UC07
+  Publisher --> UC08
+  
+  ' 接单者关联
+  Taker --> UC09
+  Taker --> UC10
+  Taker --> UC11
+  Taker --> UC12
+  Taker --> UC13
+  Taker --> UC14
+  Taker --> UC15
+  
+  ' 公共用例关联
+  Publisher --> UC16
+  Taker --> UC16
+  Publisher --> UC17
+  Taker --> UC17
+  Publisher --> UC18
+  Taker --> UC18
+  Publisher --> UC19
+  Taker --> UC19
+  Publisher --> UC20
+  Taker --> UC20
+  
+  ' 管理员关联
+  Admin --> UC21
+  Admin --> UC22
+  Admin --> UC23
+  Admin --> UC24
+  
+  ' ===== 用例间关系 =====
+  ' 包含关系（include）
+  UC01 ..> UC19 : <<include>>\n查看详情
+  UC10 ..> UC19 : <<include>>\n查看详情
+  UC03 ..> UC04 : <<include>>\n触发评价
+  
+  ' 扩展关系（extend）
+  UC02 ..> UC11 : <<extend>>\n爽约扣分
+  UC11 ..> UC17 : <<include>>\n更新信用分
+}
+
+@enduml
