@@ -30,7 +30,7 @@ jobs:
 
       - name: Check grammar of code
         run: |
-          python -m compile src/
+          python -m py_compile $(find src/ -name "*.py")
 
       - name: Run tests
         run: |
