@@ -1,0 +1,37 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ main, dev ] #推送到dev与main进行测试
+  pull_request:
+    branches: [ main, dev ] #dev与main都跑测试
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4 # 虚拟机下载代码
+
+      - name: Set up Python # 设置虚拟机python环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies # 虚拟机安装环境依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest flake8
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Check style of code
+        run: |
+            flake8 src/ tests/ --count --max-line-length=127 --statistics
+
+      - name: Check grammar of code
+        run: |
+          python -m py_compile $(find src/ -name "*.py")
+
+      - name: Run tests
+        run: |
+          python -m pytest tests/ -v

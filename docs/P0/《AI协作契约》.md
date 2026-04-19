@@ -38,7 +38,7 @@ AI 是工具，工程师是责任主体
 ---
 ## 第三条：过程记录要求
 
-    所有与 AI 的交互 Prompt 必须保留日志（保存在 docs/Ai_prompts/ 目录）
+    所有与 AI 的交互 Prompt 必须保留日志（保存在 docs/P1/Ai_prompts/ 目录）
 
     Git commit message 必须标注 [AI-assisted] 或 [Human-written]
 
